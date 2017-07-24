@@ -69,6 +69,15 @@ def cleaned_text(text):
     text = text.replace('é','a')
     text = text.replace('è','e')
     text = text.replace('â','a')
+	
+    punctuation = ['!', ',', '.', ':', ';', '?', ' ']
+    start_lcase_hex = 0x61
+    end_lcase_hex = 0x7B
+    lower_case_hex = [x for x in range(start_lcase_hex,end_lcase_hex)]
+    lower_case_chr = [chr(l) for l in lower_case_hex ]
+    desired_characters = punctuation + lower_case_chr 
+    #in case I missed something, I just erase anything unwanted
+    ''.join([i for i in text if (i in desired_characters)])
     #punctuation = ['!', ',', '.', ':', ';', '?']
     return text
 
@@ -82,8 +91,7 @@ def window_transform_text(text, window_size, step_size):
 		
     for xpair in range(0,nbpairs,step_size):
         inputs.append(text[xpair:xpair+window_size])
-		
-    outputs = text[window_size:]
+        outputs.append(text[xpair+ window_size])
         
     return inputs,outputs
 
