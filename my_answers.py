@@ -1,18 +1,25 @@
 import numpy as np
 
 from keras.models import Sequential
-from keras.layers import Dense
+from keras.layers import Dense, Activation
 from keras.layers import LSTM
 import keras
 
 
-# TODO: fill out the function below that transforms the input series 
+# Fill out the function below that transforms the input series 
 # and window-size into a set of input/output pairs for use with our RNN model
 def window_transform_series(series, window_size):
+    nbpairs = len(series) - window_size
+		
     # containers for input/output pairs
     X = []
     y = []
-
+	
+    for xpair in range(nbpairs):
+        X.append(series[xpair:xpair+window_size])
+		
+    y = series[window_size:]
+        
     # reshape each 
     X = np.asarray(X)
     X.shape = (np.shape(X)[0:2])
@@ -21,26 +28,71 @@ def window_transform_series(series, window_size):
 
     return X,y
 
-# TODO: build an RNN to perform regression on our time series input/output data
+# Build an RNN to perform regression on our time series input/output data
 def build_part1_RNN(window_size):
-    pass
+    model = Sequential()
+    model.add(LSTM(5, input_shape=(window_size,1)))
+    model.add(Dense(1))
+	
+    return model
 
 
 ### TODO: return the text input with only ascii lowercase and the punctuation given below included.
 def cleaned_text(text):
-    punctuation = ['!', ',', '.', ':', ';', '?']
-
+    text = text.replace('"',' ')
+    text = text.replace('$',' ')
+    text = text.replace('%',' ')
+    text = text.replace('&',' ')
+    text = text.replace("'",' ')
+    text = text.replace('(',' ')
+    text = text.replace(')',' ')
+    text = text.replace('*',' ')
+    text = text.replace('-',' ')
+    text = text.replace('/',' ')
+    text = text.replace('0',' ')
+    text = text.replace('1',' ')
+    text = text.replace('2',' ')
+    text = text.replace('3',' ')
+    text = text.replace('4',' ')
+    text = text.replace('5',' ')
+    text = text.replace('6',' ')
+    text = text.replace('7',' ')
+    text = text.replace('8',' ')
+    text = text.replace('9',' ')
+    text = text.replace('@',' ')
+    text = text.replace('\xa0',' ')
+    text = text.replace('ã¢','a')
+    text = text.replace('ã¨','e')
+    text = text.replace('ã©','e')
+    text = text.replace('ã','a')
+    text = text.replace('à','a')
+    text = text.replace('é','a')
+    text = text.replace('è','e')
+    text = text.replace('â','a')
+    #punctuation = ['!', ',', '.', ':', ';', '?']
     return text
 
 ### TODO: fill out the function below that transforms the input text and window-size into a set of input/output pairs for use with our RNN model
 def window_transform_text(text, window_size, step_size):
+    nbpairs = len(text) - window_size
+	
     # containers for input/output pairs
     inputs = []
     outputs = []
-
+		
+    for xpair in range(0,nbpairs,step_size):
+        inputs.append(text[xpair:xpair+window_size])
+		
+    outputs = text[window_size:]
+        
     return inputs,outputs
 
 # TODO build the required RNN model: 
 # a single LSTM hidden layer with softmax activation, categorical_crossentropy loss 
 def build_part2_RNN(window_size, num_chars):
-    pass
+    model = Sequential()
+    model.add(LSTM(200, input_shape=(window_size,num_chars)))
+    model.add(Dense(num_chars))
+    model.add(Activation('softmax'))
+	
+    return model

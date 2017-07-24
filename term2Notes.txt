@@ -1,0 +1,7 @@
+punctuation = ['!', ',', '.', ':', ';', '?']
+start_lcase_hex = 0x61
+end_lcase_hex = 0x7B
+lower_case_hex = [x for x in range(start_lcase_hex,end_lcase_hex)]
+lower_case_chr = [chr(l) for l in lower_case_hex ]
+desired_characters = punctuation + lower_case_chr
+text2 = text
