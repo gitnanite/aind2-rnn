@@ -49,6 +49,7 @@ def cleaned_text(text):
     text = text.replace('*',' ')
     text = text.replace('-',' ')
     text = text.replace('/',' ')
+    text = text.replace('\\',' ')
     text = text.replace('0',' ')
     text = text.replace('1',' ')
     text = text.replace('2',' ')
@@ -60,6 +61,8 @@ def cleaned_text(text):
     text = text.replace('8',' ')
     text = text.replace('9',' ')
     text = text.replace('@',' ')
+    text = text.replace('+',' ')
+    text = text.replace('>',' ')
     text = text.replace('\xa0',' ')
     text = text.replace('ã¢','a')
     text = text.replace('ã¨','e')
@@ -77,7 +80,7 @@ def cleaned_text(text):
     lower_case_chr = [chr(l) for l in lower_case_hex ]
     desired_characters = punctuation + lower_case_chr 
     #in case I missed something, I just erase anything unwanted
-    ''.join([i for i in text if (i in desired_characters)])
+    text=''.join([i for i in text if (i in desired_characters)])
     #punctuation = ['!', ',', '.', ':', ';', '?']
     return text
 
